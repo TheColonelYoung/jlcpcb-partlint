@@ -227,7 +227,10 @@ class PartResult:
         return self.value < other.value
 
     def __str__(self):
-        return format_value(self.value, self.unit if self.unit != 'Ohm' else 'Ω')
+        if self.value is not None:
+            return format_value(self.value, self.unit if self.unit != 'Ohm' else 'Ω')
+        else:
+            return self.value_raw
 
 
 def find(conn, lcsc=None, mpn=None) -> PartResult | None:

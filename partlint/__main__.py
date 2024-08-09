@@ -1,6 +1,7 @@
 import argparse
 import os.path
 import sys
+import textwrap
 from glob import glob
 
 import tabulate
@@ -97,7 +98,7 @@ def check(path):
         sys.stderr.write(f"Invalid path: '{path}'\n")
         exit(1)
 
-    db = database.db_open('parts.db')
+    db = database.db_open()
 
     if os.path.isdir(path):
         files = glob(os.path.join(path, '*.kicad_sch'))
@@ -181,7 +182,7 @@ def check(path):
                     status = match
         if len(status):
             failures += 1
-        rows.append([', '.join(refs), part_value, find_footprint(part_footprint), nums, partdesc[0:50], status])
+        rows.append([', '.join(refs), part_value, find_footprint(part_footprint), nums, textwrap.shorten(partdesc, 64), status])
     print(tabulate.tabulate(rows, headers=['Ref', 'Value', 'Footprint', 'LCSC', 'Description', 'Status']))
     print()
     print(f"Found {failures} issues")
