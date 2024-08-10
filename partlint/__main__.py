@@ -139,10 +139,15 @@ def check(path):
                 for i in parts[key]:
                     if i.lcsc not in variance:
                         variance[i.lcsc] = []
-                    variance[i.lcsc].append(i.ref)
+                    variance[i.lcsc].append(i)
                 err = f"Inconsistent LCSC part number for the same part {key}: \n"
                 for val in variance:
-                    err += ', '.join(variance[val]) + ": " + (val if val is not None else "unset") + "\n"
+                    err += ', '.join([p.ref for p in variance[val]]) + ": " + (val if val is not None else "unset") + "\n"
+                    lp = database.find(db, val)
+                    if lp is not None:
+                        err += f'        LCSC part: {lp}\n'
+                    else:
+                        err += f'        LCSC part not in database\n'
                 errors.append(err)
                 consistent = False
             if len(mpns) != 1:
