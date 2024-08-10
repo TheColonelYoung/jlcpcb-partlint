@@ -133,14 +133,6 @@ def check(path):
         if mpns == {None} and lcscs == {None}:
             # Part has no part number info at all
             pass
-        elif mpns == {None} and lcscs != {None}:
-            # Part has only LCSC data
-            if len(mpns) != 1:
-                consistent = False
-        elif mpns != {None} and lcscs == {None}:
-            # Part has only MPN data
-            if len(lcscs) != 1:
-                consistent = False
         else:
             if len(lcscs) != 1:
                 variance = {}
