@@ -142,7 +142,8 @@ def check(path):
                     variance[i.lcsc].append(i)
                 err = f"Inconsistent LCSC part number for the same part {key}: \n"
                 for val in variance:
-                    err += ', '.join([p.ref for p in variance[val]]) + ": " + (val if val is not None else "unset") + "\n"
+                    err += ', '.join([p.ref for p in variance[val]]) + ": " + (
+                        val if val is not None else "unset") + "\n"
                     lp = database.find(db, val)
                     if lp is not None:
                         err += f'        LCSC part: {lp}\n'
@@ -179,8 +180,12 @@ def check(path):
                     status = match
         if len(status):
             failures += 1
-        rows.append([', '.join(refs), part_value, find_footprint(part_footprint), nums, textwrap.shorten(partdesc, 64), status])
-    print(tabulate.tabulate(rows, headers=['Ref', 'Value', 'Footprint', 'LCSC', 'Description', 'Status']))
+        rows.append(
+            [', '.join(refs), part_value, find_footprint(part_footprint) or '', nums, textwrap.shorten(partdesc, 64),
+             status])
+    print(tabulate.tabulate(rows, headers=['Ref', 'Value', 'Footprint', 'LCSC', 'Description', 'Status'],
+                            tablefmt='simple_grid', maxcolwidths=[40, 40, 40, 40, 40, None],
+                            colalign=["left", "left", "left"]))
     print()
     print(f"Found {failures} issues")
     print()
