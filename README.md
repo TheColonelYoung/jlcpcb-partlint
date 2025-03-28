@@ -1,5 +1,7 @@
 # PartLint
 
+Forked from [martijnbraam/partlint](https://git.sr.ht/~martijnbraam/partlint). Adjusted for CI/CD usage within KiBot.
+
 This is a utility for checking KiCad designs for the mistake I keep making: Copying a resistor in the design
 and then not updating the MPN or LCSC part number, only the value.
 
@@ -13,6 +15,14 @@ same value and footprint also have the same ordering information.
 $ pip install partlint
 $ partlint update
 Downloading new data...
+```
+
+## Dependency
+- tabulate
+- openpyxl
+- sexpdata
+```
+python3 -m pip install tabulate openpyxl sexpdata
 ```
 
 ## Usage
