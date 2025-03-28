@@ -8,7 +8,7 @@ import time
 import openpyxl
 import requests
 
-from partlint.si import si_format
+from si import si_format
 
 
 def find_value(description):
@@ -235,8 +235,14 @@ class PartResult:
 
 
 def find(conn, lcsc=None, mpn=None) -> PartResult | None:
-    if isinstance(lcsc, str):
-        lcsc = int(lcsc[1:])
+    if lcsc and isinstance(lcsc, str) and lcsc.startswith('C'):
+        try:
+            lcsc = int(lcsc[1:])
+        except ValueError:
+            raise ValueError(f"Invalid LCSC code format: {lcsc}")
+    elif lcsc is not None:
+        return None
+
     cur = conn.execute('SELECT * FROM lcsc WHERE lcsc = :lcsc', {'lcsc': lcsc})
     row = cur.fetchone()
 

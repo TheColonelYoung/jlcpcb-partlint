@@ -6,9 +6,9 @@ from glob import glob
 
 import tabulate
 
-from partlint import database
-from partlint.database import find_footprint
-from partlint.schematic import Schematic
+import database
+from database import find_footprint
+from schematic import Schematic
 
 
 def update():
